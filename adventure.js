@@ -136,7 +136,49 @@ class AdventureScene extends Phaser.Scene {
             this.updateInventory();
         });
     }
-
+    //new function
+    createContainer(image, text, x, y){
+        const container = this.add.container(x, y);
+        const contimage = this.add.image(0, 0, image);
+        contimage.setScale(0.2)
+        const conttext = this.add.text(75, 0, text);
+        conttext.setFontSize(33);
+        container.add([contimage, conttext]);
+        container.setSize(200,200);
+        container.setInteractive();
+        return container;
+    }
+    //new function
+    pickUpItem(container, nameInInventory, messageToShow){
+        this.showMessage(messageToShow);
+                this.gainItem(nameInInventory);
+                this.tweens.add({
+                    targets: container,
+                    y: `-=${2 * this.s}`,
+                    alpha: { from: 1, to: 0 },
+                    duration: 500,
+                    onComplete: () => container.destroy()
+                });
+    }
+    //new function
+    BounceProperty(Object){
+        this.tweens.add({
+            targets: Object,
+            scaleX: 1.5,
+            scaleY: 1.5,
+            duration: 500,
+            ease: 'Power2',
+        });
+        Object.on('pointerout', () => {
+            this.tweens.add({
+                targets: Object,
+                scaleX: 1,
+                scaleY: 1,
+                duration: 500,
+                ease: 'Power2',
+            });
+        })
+    }
     gotoScene(key) {
         this.cameras.main.fade(this.transitionDuration, 0, 0, 0);
         this.time.delayedCall(this.transitionDuration, () => {
