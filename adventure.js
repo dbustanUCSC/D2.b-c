@@ -161,19 +161,19 @@ class AdventureScene extends Phaser.Scene {
                 });
     }
     //new function
-    BounceProperty(Object){
+    BounceProperty(Object, scaleOn, scaleAfter){
         this.tweens.add({
             targets: Object,
-            scaleX: 1.5,
-            scaleY: 1.5,
+            scaleX: scaleOn,
+            scaleY: scaleOn,
             duration: 500,
             ease: 'Power2',
         });
         Object.on('pointerout', () => {
             this.tweens.add({
                 targets: Object,
-                scaleX: 1,
-                scaleY: 1,
+                scaleX: scaleAfter,
+                scaleY: scaleAfter,
                 duration: 500,
                 ease: 'Power2',
             });

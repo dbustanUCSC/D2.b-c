@@ -1,28 +1,60 @@
 class Troll extends AdventureScene {
     constructor() {
-        super("room1", "Troll Tunnel");
+        super("scene1", "Troll Tunnel");
     }
     preload(){
         this.load.image('Troll Tunnel Back', '/assets/Scene 2.png')
         this.load.image('Minecraft', '/assets/minecraft.png')
         this.load.image('arrow','/assets/Arrow.png')
+        this.load.image('ani1','/assets/Animation 1.png')
+        this.load.image('ani2','/assets/Animation 2.png')
+        this.load.image('ani3','/assets/Animation 3.png')
+        this.load.image('ani4','/assets/Animation 4.png')
     }
     onEnter() {
+        
         let scene1bg = this.add.image(-500, 0, 'Troll Tunnel Back');
         scene1bg.setOrigin(0);
         scene1bg.setDepth(-1);
-        let MCcontainer = this.createContainer('Minecraft', 'Dirt block',this.w * 0.6, this.w * 0.5)
+        if (!this.hasItem('Dirt Block')){
+            let MCcontainer = this.createContainer('Minecraft', 'Dirt Block',this.w * 0.6, this.w * 0.5)
             .on('pointerover', () => {
-                this.BounceProperty(MCcontainer)
-                this.showMessage("A block from some pretty famous game...");
-            })  
-            
-            .on('pointerdown', () => {
-                this.pickUpItem(MCcontainer, 'Minecraft Block', 'You picked up the Minecraft Block.');
+                     this.BounceProperty(MCcontainer,1.5, 1)
+                     this.showMessage("A block from some pretty famous game...")
+                 })  
+                 
+                 .on('pointerdown', () => {
+                     this.pickUpItem(MCcontainer, 'Dirt Block', 'You picked up the Minecraft Block.')
+                 })
+        }
+            this.anims.create({
+                key: 'arrow-hover',
+                frames: [
+                    {key: 'arrow'},
+                    {key: 'ani1'},
+                    {key: 'ani2'},
+                    {key: 'ani3'},
+                    {key: 'ani4'}
+                ],
+                frameRate: 9,
+                repeat: -1
             })
-
-            let Arrow = this.add.image(this.w, this.w, 'arrow').setDepth(1);
-            Arrow.setScale(0.1)
+        let Arrow = this.add.sprite(750,900, 'arrow')
+        Arrow.setInteractive()
+        Arrow.setScale(0.7)
+            .on('pointerover', () => {
+                this.BounceProperty(Arrow,1.1,0.7)
+                Arrow.anims.play('arrow-hover');
+                this.showMessage("Probably the right way to go!")
+            })
+            .on('pointerout', () => {
+                Arrow.anims.stop('arrow-hover');
+                Arrow.setTexture('arrow');
+            })
+            .on('pointerdown', () => {
+                this.showMessage("here we go...");
+                this.gotoScene('scene2');
+            })
 
         /*this.MinecraftBlockWhole = this.add.container(this.w * 0.6, this.w * 0.5);
         this.Minecraft = this.add.text(75, 0, "Dirt Block")
@@ -49,9 +81,9 @@ class Troll extends AdventureScene {
     }
 }
 
-class Demo2 extends AdventureScene {
+class Scene2 extends AdventureScene {
     constructor() {
-        super("demo2", "The second room has a long name (it truly does).");
+        super("scene2", "The second room has a long name (it truly does).");
     }
     onEnter() {
         this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
@@ -61,7 +93,7 @@ class Demo2 extends AdventureScene {
                 this.showMessage("You've got no other choice, really.");
             })
             .on('pointerdown', () => {
-                this.gotoScene('demo1');
+                this.gotoScene('scene1');
             });
 
         let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
@@ -89,7 +121,7 @@ class Intro extends Phaser.Scene {
         this.load.image('trash day', '/assets/Scene 1.png')
     }
     create() {
-        this.add.image(0, 0, 'trash day').setOrigin(0, 0);
+        this.add.image(0, 0, 'trash day').setOrigin(0, 0).setScale(0.9)
         const title = this.add.text(50,50, "The Horrifying Secret of Trash Day. \n Click to start the story!").setFontSize(50);
         const hey = this.add.text(50,100, "You have been contacted by Trash Day (pictured behind). \n They want you to fix the production of their merch, as \n they have no more supply.").setFontSize(50);
         hey.alpha = 0;
@@ -119,7 +151,7 @@ class Intro extends Phaser.Scene {
                       hey.destroy();
                       currentText = null;
                       this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('room1'));
+            this.time.delayedCall(1000, () => this.scene.start('scene1'));
                     }
                   });
             }
@@ -152,7 +184,7 @@ class Outro extends Phaser.Scene {
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Troll, Demo2, Outro],
+    scene: [Intro, Troll, Scene2, Outro],
     title: "Adventure Game",
 });
 
