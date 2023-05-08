@@ -83,14 +83,14 @@ class Troll extends AdventureScene {
 
 class Scene2 extends AdventureScene {
     constructor() {
-        super("scene2", "The second room has a long name (it truly does).");
+        super("scene2", "Yakuza Merch Room");
     }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
+        this.add.text(this.w * 0.3, this.w * 0.4, "turn around")
             .setFontSize(this.s * 2)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
+                this.showMessage("Maybe you missed something?");
             })
             .on('pointerdown', () => {
                 this.gotoScene('scene1');
