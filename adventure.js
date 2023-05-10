@@ -1,5 +1,12 @@
 class AdventureScene extends Phaser.Scene {
-
+    //need this for Arrowanimation func below
+    preload(){
+        this.load.image('arrow','/assets/Arrow.png')
+        this.load.image('ani1','/assets/Animation 1.png')
+        this.load.image('ani2','/assets/Animation 2.png')
+        this.load.image('ani3','/assets/Animation 3.png')
+        this.load.image('ani4','/assets/Animation 4.png')
+    }
     init(data) {
         this.inventory = data.inventory || [];
     }
@@ -137,10 +144,10 @@ class AdventureScene extends Phaser.Scene {
         });
     }
     //new function
-    createContainer(image, text, x, y){
+    createContainer(image, text, x, y, scale){
         const container = this.add.container(x, y);
         const contimage = this.add.image(0, 0, image);
-        contimage.setScale(0.2)
+        contimage.setScale(scale)
         const conttext = this.add.text(75, 0, text);
         conttext.setFontSize(33);
         container.add([contimage, conttext]);
@@ -178,6 +185,38 @@ class AdventureScene extends Phaser.Scene {
                 ease: 'Power2',
             });
         })
+    }
+    //new function
+    ArrowCreation(x, y, rotation, message, scene, bounceIn, bounceOut){
+        let Arrow = this.add.sprite(x,y, 'arrow')
+        .setInteractive()
+        .setScale(0.7)
+        .setRotation(rotation)
+        this.anims.create({
+            key: 'arrow-hover',
+            frames: [
+                {key: 'arrow'},
+                {key: 'ani1'},
+                {key: 'ani2'},
+                {key: 'ani3'},
+                {key: 'ani4'}
+            ],
+            frameRate: 9,
+            repeat: -1
+        })
+        Arrow.on('pointerover', () => {
+            this.BounceProperty(Arrow, bounceIn, bounceOut)
+            Arrow.anims.play('arrow-hover');
+            this.showMessage(message);
+        })
+        .on('pointerout', () => {
+            Arrow.anims.stop('arrow-hover');
+            Arrow.setTexture('arrow');
+        })
+        .on('pointerdown', () => {
+            this.gotoScene(scene);
+        });
+        return Arrow;
     }
     gotoScene(key) {
         this.cameras.main.fade(this.transitionDuration, 0, 0, 0);
