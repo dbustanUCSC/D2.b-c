@@ -102,8 +102,50 @@ class Scene2 extends AdventureScene {
             .on('pointerdown', () => {
                 this.pickUpItem(MajimaPoster, 'Cool Majima Poster', 'Why is this on the way to the Trash Day merch?...')
             })
+        const Arrow2 = this.ArrowCreation(1100, 500, 1.14,"Onwards!", "scene3", 1.0, 0.7)
             
     }
+}
+
+
+class Scene3 extends AdventureScene {
+    constructor() {
+        super("scene3", "The Lab...");
+    }
+    preload(){
+        this.load.image('Lab', '/assets/Scene 3.png')
+        this.load.image('Manny', '/assets/Mannycrop.png')
+    }
+    onEnter() {
+        let Manny = this.add.image(900, 400, 'Manny');
+        let scene3bg = this.add.image(-70, 0, 'Lab');
+        Manny.alpha = 0.5;
+        Manny.setInteractive();
+        Manny.on('pointerdown', () => {
+            this.showMessage("When knocking on the display, you hear faint bubbles. What's going on?...")
+        })
+        scene3bg.setOrigin(0);
+        scene3bg.setDepth(-1);
+        scene3bg.setScale(0.75);
+        let invis = this.add.image(1500, 400, 'Manny');
+        invis.alpha = 0.05
+        invis.setInteractive();
+        invis.on('pointerdown', () => {
+                this.showMessage("It's hard to read, but it says 'Trash Day Merch Cloner'. \n What could this mean?...")
+        })
+        let invis2 = this.add.image(270, 500, 'Manny');
+        invis2.alpha = 0.05
+        invis2.setInteractive();
+        invis2.on('pointerdown', () => {
+            this.showMessage("Oh shit...")
+        })
+        invis2.on('pointerover', () => {
+            this.showMessage("Do I click it?")
+        })
+
+
+    }
+
 }
 
 class Intro extends Phaser.Scene {
@@ -145,7 +187,7 @@ class Intro extends Phaser.Scene {
                       hey.destroy();
                       currentText = null;
                       this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('scene2'));
+            this.time.delayedCall(1000, () => this.scene.start('scene3'));
                     }
                   });
             }
@@ -178,7 +220,7 @@ class Outro extends Phaser.Scene {
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Troll, Scene2, Outro],
+    scene: [Intro, Troll, Scene2, Scene3, Outro],
     title: "Adventure Game",
 });
 
