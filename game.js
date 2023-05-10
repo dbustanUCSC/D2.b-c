@@ -110,7 +110,7 @@ class Scene2 extends AdventureScene {
 
 class Scene3 extends AdventureScene {
     constructor() {
-        super("scene3", "The Lab...");
+        super("scene3", "The Lab.");
     }
     preload(){
         this.load.image('Lab', '/assets/Scene 3.png')
@@ -122,30 +122,69 @@ class Scene3 extends AdventureScene {
         Manny.alpha = 0.5;
         Manny.setInteractive();
         Manny.on('pointerdown', () => {
-            this.showMessage("When knocking on the display, you hear faint bubbles. What's going on?...")
+            if (Manny.alpha != 0.01){
+                this.showMessage("When knocking on the display, you hear faint bubbles. What's going on?...")
+            } else {
+                this.showMessage("He's gone?")
+            }
+            
         })
         scene3bg.setOrigin(0);
         scene3bg.setDepth(-1);
         scene3bg.setScale(0.75);
         let invis = this.add.image(1500, 400, 'Manny');
-        invis.alpha = 0.05
+        invis.alpha = 0.01
         invis.setInteractive();
         invis.on('pointerdown', () => {
                 this.showMessage("It's hard to read, but it says 'Trash Day Merch Cloner'. \n What could this mean?...")
         })
         let invis2 = this.add.image(270, 500, 'Manny');
-        invis2.alpha = 0.05
+        let check = false
+        invis2.alpha = 0.01
         invis2.setInteractive();
         invis2.on('pointerdown', () => {
-            this.showMessage("Oh shit...")
-        })
+            this.showMessage("Oh shit...");
+            let fade = this.add.rectangle(500, 500, this.cameras.main.width, this.cameras.main.height+90, 0x000000);
+            fade.alpha = 0;
+            fade.setDepth(2);
+            this.tweens.add({
+                targets: fade,
+                alpha: 1,
+                duration: 1000,
+                onComplete: () => {
+                    this.tweens.add({
+                        targets: fade, 
+                        alpha: 0.4,
+                        duration: 7000,
+                    });
+                    invis2.alpha = 0;
+                    check = true;
+                    if (check == true){
+                        const Arrow = this.ArrowCreation(1000, 500, 1, "I think I hear something over here...", "scene4", 1.0, 0.7);
+                    }
+                    // Code to execute after fade in
+                }
+            });
+            this.tweens.add({
+                targets: Manny,
+                alpha: 0.01,
+                duration: 1000,
+            });
+        });
         invis2.on('pointerover', () => {
             this.showMessage("Do I click it?")
         })
-
-
     }
 
+}
+
+class Scene4 extends AdventureScene{
+    constructor(){
+        super("scene4", 'MANNY!')
+    }
+    onEnter(){
+        this.showMessage("You're dead.");
+    }
 }
 
 class Intro extends Phaser.Scene {
@@ -187,7 +226,7 @@ class Intro extends Phaser.Scene {
                       hey.destroy();
                       currentText = null;
                       this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('scene3'));
+            this.time.delayedCall(1000, () => this.scene.start('scene1'));
                     }
                   });
             }
@@ -220,7 +259,7 @@ class Outro extends Phaser.Scene {
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Troll, Scene2, Scene3, Outro],
+    scene: [Intro, Troll, Scene2, Scene3, Scene4, Outro],
     title: "Adventure Game",
 });
 
