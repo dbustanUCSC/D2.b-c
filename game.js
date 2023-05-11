@@ -119,6 +119,9 @@ class Scene3 extends AdventureScene {
     onEnter() {
         let Manny = this.add.image(900, 400, 'Manny');
         let scene3bg = this.add.image(-70, 0, 'Lab');
+        scene3bg.setOrigin(0);
+        scene3bg.setDepth(-1);
+        scene3bg.setScale(0.75);
         Manny.alpha = 0.5;
         Manny.setInteractive();
         Manny.on('pointerdown', () => {
@@ -129,9 +132,7 @@ class Scene3 extends AdventureScene {
             }
             
         })
-        scene3bg.setOrigin(0);
-        scene3bg.setDepth(-1);
-        scene3bg.setScale(0.75);
+        
         let invis = this.add.image(1500, 400, 'Manny');
         invis.alpha = 0.01
         invis.setInteractive();
@@ -182,8 +183,22 @@ class Scene4 extends AdventureScene{
     constructor(){
         super("scene4", 'MANNY!')
     }
+    preload(){
+        this.load.image('Manny', '/assets/Mannycrop.png')
+        this.load.image('Background', '/assets/Scene 4.png')
+        this.load.image('Manny Text','/assets/mannytext.png')
+    }
     onEnter(){
-        this.showMessage("You're dead.");
+        let scene4bg = this.add.image(-70, 0, 'Background');
+        let manny = this.add.image(0, 0, 'Manny');
+        let mannytext = this.add.particles('Manny_text');
+        let mannytextsettings = mannytext.createEmitter();
+        let mannyContainer = this.add.container (900,800);
+        mannyContainer.add(manny, mannytextsettings);
+        scene4bg.setOrigin(0);
+        scene4bg.setDepth(-1);
+        scene4bg.setScale(0.75);
+        this.showMessage("He looks like he's going to kill you! He shrieks the name Manny. \n What do you do?");
     }
 }
 
@@ -226,7 +241,7 @@ class Intro extends Phaser.Scene {
                       hey.destroy();
                       currentText = null;
                       this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('scene1'));
+            this.time.delayedCall(1000, () => this.scene.start('scene4'));
                     }
                   });
             }
