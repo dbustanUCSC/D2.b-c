@@ -27,18 +27,6 @@ class Troll extends AdventureScene {
                      this.pickUpItem(MCcontainer, 'Dirt Block', 'You picked up the Minecraft Block.')
                  })
         }
-            this.anims.create({
-                key: 'arrow-hover',
-                frames: [
-                    {key: 'arrow'},
-                    {key: 'ani1'},
-                    {key: 'ani2'},
-                    {key: 'ani3'},
-                    {key: 'ani4'}
-                ],
-                frameRate: 9,
-                repeat: -1
-            })
         let Arrow = this.ArrowCreation(750, 900, 0, "Probably the right way to go!","scene2", 1.1, 0.7)
 
         /*this.MinecraftBlockWhole = this.add.container(this.w * 0.6, this.w * 0.5);
@@ -126,7 +114,7 @@ class Scene3 extends AdventureScene {
         Manny.setInteractive();
         Manny.on('pointerdown', () => {
             if (Manny.alpha != 0.01){
-                this.showMessage("When knocking on the display, you hear faint bubbles. What's going on?...")
+                this.showMessage("Weird...")
             } else {
                 this.showMessage("He's gone?")
             }
@@ -191,15 +179,54 @@ class Scene4 extends AdventureScene{
     onEnter(){
         let scene4bg = this.add.image(-70, 0, 'Background');
         let manny = this.add.image(0, 0, 'Manny');
-        let mannytext = this.add.particles('Manny_text');
-        let mannytextsettings = mannytext.createEmitter();
-        let mannyContainer = this.add.container (900,800);
-        mannyContainer.add(manny, mannytextsettings);
+        let lever = this.add.image(1400, 300, 'Manny');
+        lever.alpha = 0.01
+        lever.setInteractive();
+        lever.on('pointerover', () => {
+            this.showMessage("Looks like a lever! Do I grab it?")    
+        })
+        lever.on('pointerdown', () => {
+                if (!this.hasItem('Dirt Block')){
+                    this.showMessage("I can't reach it! This is the end...")
+                    let rect = this.add.rectangle(500, 500, this.cameras.main.width, this.cameras.main.height+90, 0x000000);
+                    rect.setDepth(0);
+                    this.time.delayedCall(2000, () => this.scene.start('badoutro'));
+
+                } else {
+                    this.showMessage("Let me place down this block!")
+                    this.loseItem('Dirt Block')
+                    let rect = this.add.rectangle(500, 500, this.cameras.main.width, this.cameras.main.height+90, 0x000000);
+                    rect.setDepth(0);
+                    this.time.delayedCall(2000, () => this.scene.start('goodoutro'));
+                }
+        })
+        let mannytext = this.add.particles(0,-50,'Manny Text', {
+                x: 0,
+                y: 0,
+                lifespan: 2000,
+                speed: { min: 400, max: 600 },
+                angle: { min: 0, max: 360 },
+                gravityY: 30,
+                gravityX: 30,
+                accelerationX: -400,
+                accelerationY: -300,
+                quantity: 0.00000001,
+                blendMode: 'NORMAL'
+        });
+        mannytext.setScale(0.3)
+        let mannyContainer = this.add.container(900, 800);
+        mannyContainer.add(mannytext);
+        mannyContainer.add(manny);
+        manny.setDepth(2);
+        
+        mannytext.start();
         scene4bg.setOrigin(0);
         scene4bg.setDepth(-1);
         scene4bg.setScale(0.75);
-        this.showMessage("He looks like he's going to kill you! He shrieks the name Manny. \n What do you do?");
+        this.showMessage("He looks like he's going to kill me!");
+        this.showMessage("He is yelling that he's manny, he doesn't seem to be stopping.");
     }
+
 }
 
 class Intro extends Phaser.Scene {
@@ -241,7 +268,7 @@ class Intro extends Phaser.Scene {
                       hey.destroy();
                       currentText = null;
                       this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('scene4'));
+                      this.time.delayedCall(1000, () => this.scene.start('scene1'));
                     }
                   });
             }
@@ -255,17 +282,28 @@ class Intro extends Phaser.Scene {
     }
 }
 
-class Outro extends Phaser.Scene {
+class BadOutro extends Phaser.Scene {
     constructor() {
-        super('outro');
+        super('badoutro');
     }
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+        this.add.text(50, 50, "Manny eats you alive and runs away. \nTrash Day no longer can supply merch. \nThis is the worst ending possible. Good job.").setFontSize(50);
+        this.add.text(50, 200, "Click anywhere to restart.").setFontSize(20);
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
 
+class GoodOutro extends Phaser.Scene {
+    constructor() {
+        super('goodoutro');
+    }
+    create() {
+        this.add.text(50, 50, "You pull the lever and kill Manny.").setFontSize(50);
+        this.add.text(50, 100, "You are now his new replacement! Good job.")
+        this.add.text(50, 200, "Click anywhere to restart.").setFontSize(20);
+        this.input.on('pointerdown', () => this.scene.start('intro'));
+    }
+}
 
  game = new Phaser.Game({
     scale: {
@@ -274,7 +312,7 @@ class Outro extends Phaser.Scene {
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Troll, Scene2, Scene3, Scene4, Outro],
+    scene: [Intro, Troll, Scene2, Scene3, Scene4, BadOutro, GoodOutro],
     title: "Adventure Game",
 });
 
