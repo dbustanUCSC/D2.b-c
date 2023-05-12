@@ -1,11 +1,11 @@
 class AdventureScene extends Phaser.Scene {
     //need this for Arrowanimation func below
     preload(){
-        this.load.image('arrow','/assets/Arrow.png')
-        this.load.image('ani1','/assets/Animation 1.png')
-        this.load.image('ani2','/assets/Animation 2.png')
-        this.load.image('ani3','/assets/Animation 3.png')
-        this.load.image('ani4','/assets/Animation 4.png')
+        this.load.image('arrow','/assets/arrow.png')
+        this.load.image('ani1','/assets/animation 1.png')
+        this.load.image('ani2','/assets/animation 2.png')
+        this.load.image('ani3','/assets/animation 3.png')
+        this.load.image('ani4','/assets/animation 4.png')
     }
     init(data) {
         this.inventory = data.inventory || [];
