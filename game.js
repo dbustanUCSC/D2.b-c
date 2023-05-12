@@ -224,7 +224,6 @@ class Scene4 extends AdventureScene{
         scene4bg.setDepth(-1);
         scene4bg.setScale(0.75);
         this.showMessage("He looks like he's going to kill me!");
-        this.showMessage("He is yelling that he's manny, he doesn't seem to be stopping.");
     }
 
 }
