@@ -3,13 +3,13 @@ class Troll extends AdventureScene {
         super("scene1", "Troll Tunnel");
     }
     preload(){
-        this.load.image('Troll Tunnel Back', '/assets/scene2.png')
-        this.load.image('Minecraft', '/assets/minecraft.png')
-        this.load.image('arrow','/assets/arrow.png')
-        this.load.image('ani1','/assets/animation1.png')
-        this.load.image('ani2','/assets/animation2.png')
-        this.load.image('ani3','/assets/animation3.png')
-        this.load.image('ani4','/assets/animation4.png')
+        this.load.image('Troll Tunnel Back', './assets/scene2.png')
+        this.load.image('Minecraft', './assets/minecraft.png')
+        this.load.image('arrow','./assets/arrow.png')
+        this.load.image('ani1','./assets/animation1.png')
+        this.load.image('ani2','./assets/animation2.png')
+        this.load.image('ani3','./assets/animation3.png')
+        this.load.image('ani4','./assets/animation4.png')
     }
     onEnter() {
         
@@ -59,9 +59,9 @@ class Scene2 extends AdventureScene {
         super("scene2", "Yakuza Merch Room");
     }
     preload(){
-        this.load.image('MerchRoom', '/assets/scene2.5.png')
-        this.load.image('majima', '/assets/majima.png')
-        this.load.image('duck', '/assets/kazumaduck.png')
+        this.load.image('MerchRoom', './assets/scene2.5.png')
+        this.load.image('majima', './assets/majima.png')
+        this.load.image('duck', './assets/kazumaduck.png')
     }
     onEnter() {
         let scene2bg = this.add.image(-300, 0, 'MerchRoom');
@@ -96,8 +96,8 @@ class Scene3 extends AdventureScene {
         super("scene3", "The Lab.");
     }
     preload(){
-        this.load.image('Lab', '/assets/scene3.png')
-        this.load.image('Manny', '/assets/mannycrop.png')
+        this.load.image('Lab', './assets/scene3.png')
+        this.load.image('Manny', './assets/mannycrop.png')
     }
     onEnter() {
         let Manny = this.add.image(900, 400, 'Manny');
@@ -167,9 +167,9 @@ class Scene4 extends AdventureScene{
         super("scene4", 'MANNY!')
     }
     preload(){
-        this.load.image('Manny', '/assets/mannycrop.png')
-        this.load.image('Background', '/assets/scene4.png')
-        this.load.image('Manny Text','/assets/mannytext.png')
+        this.load.image('Manny', './assets/mannycrop.png')
+        this.load.image('Background', './assets/scene4.png')
+        this.load.image('Manny Text','./assets/mannytext.png')
     }
     onEnter(){
         let scene4bg = this.add.image(-70, 0, 'Background');
@@ -229,7 +229,7 @@ class Intro extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('trash day', '/assets/scene1.png')
+        this.load.image('trash day', './assets/scene1.png')
     }
     create() {
         this.add.image(0, 0, 'trash day').setOrigin(0, 0).setScale(0.9)
