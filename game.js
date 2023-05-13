@@ -68,7 +68,6 @@ class Scene2 extends AdventureScene {
         scene2bg.setOrigin(0);
         scene2bg.setDepth(-1);
         scene2bg.setScale(0.75);
-        const Arrow = this.ArrowCreation(750,900,3.14, "Maybe you missed something?", "scene1", 1.0, 0.7)
         let Duck = this.createContainer('duck', 'Dame Duck', 200,450, 0.15)  
             .on('pointerover', () => {
                 this.BounceProperty(Duck,1.3, 1)
@@ -102,15 +101,20 @@ class Scene3 extends AdventureScene {
     onEnter() {
         let Manny = this.add.image(900, 400, 'Manny');
         let scene3bg = this.add.image(-70, 0, 'Lab');
+        let counter = 0;
         scene3bg.setOrigin(0);
         scene3bg.setDepth(-1);
         scene3bg.setScale(0.75);
         Manny.alpha = 0.5;
         Manny.setInteractive();
         Manny.on('pointerdown', () => {
-            if (Manny.alpha != 0.01){
+            if (Manny.alpha != 0.01 && counter < 1){
                 this.showMessage("Weird...")
-            } else {
+                counter++;
+            } else if (Manny.alpha != 0.01 && counter >= 1) {
+                this.showMessage("I think he's the being that creates Trash day merch.")
+                counter++;
+            } else if (Manny.alpha == 0.01 && counter >= 1) {
                 this.showMessage("He's gone?")
             }
             
@@ -293,7 +297,7 @@ class GoodOutro extends Phaser.Scene {
     }
     create() {
         this.add.text(50, 50, "You pull the lever and kill Manny.").setFontSize(50);
-        this.add.text(50, 100, "You are now his new replacement! Good job.")
+        this.add.text(50, 100, "You are now his new replacement! Good job.").setFontSize(40);
         this.add.text(50, 200, "Click anywhere to restart.").setFontSize(20);
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
